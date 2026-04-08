@@ -1,14 +1,18 @@
-# Product Analytics Dashboard - MVP
+# Product Analytics Dashboard - MVP+
 
-This repository contains a working MVP based on `PRD.md`.
+This repository contains a working product analytics dashboard based on `PRD.md`, now extended with segmentation, sessions, funnels, and churn analytics.
 
 ## What is implemented
 - FastAPI backend for event ingestion and analytics APIs
 - SQLite event storage for quick local setup
 - Core KPIs: DAU, WAU, MAU, total events
+- New vs returning user segmentation
 - Feature adoption analytics
 - Cohort retention analytics (Day 0..N)
-- Streamlit dashboard with interactive charts
+- Session analytics (avg duration, events/session, sessions/user)
+- Funnel analytics with configurable steps
+- Churn analytics based on inactivity window
+- Streamlit dashboard with interactive charts + filters
 - Sample seed script for realistic test data
 
 ## Project Structure
@@ -39,11 +43,15 @@ This repository contains a working MVP based on `PRD.md`.
 
 ## API Endpoints
 - `POST /events`
+- `GET /health`
 - `GET /analytics/summary`
 - `GET /analytics/dau?days=30`
 - `GET /analytics/feature-adoption?days=30`
 - `GET /analytics/retention?max_days=7`
-- `GET /health`
+- `GET /analytics/user-segments?days=30`
+- `GET /analytics/sessions?days=30`
+- `GET /analytics/funnel?steps=page_view,signup,feature_click`
+- `GET /analytics/churn?inactivity_days=14&lookback_days=30`
 
 ## Example Event Payload
 ```json
@@ -52,7 +60,9 @@ This repository contains a working MVP based on `PRD.md`.
   "event_name": "feature_click",
   "timestamp": "2026-04-07T12:00:00Z",
   "metadata": {
-    "feature": "resume_analysis"
+    "feature": "resume_analysis",
+    "session_id": "session_001",
+    "session_duration_seconds": 420
   }
 }
 ```
